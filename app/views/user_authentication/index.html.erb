@@ -10,7 +10,10 @@
       Private?
     </th>
 
-    <th></th>
+    <% if @current_user %>
+      <th></th>
+    <% end %>
+
     <th></th>
   </tr>
 
@@ -28,8 +31,25 @@
         <% end %>
       </td>
 
-      <td>
-      </td>
+      <% if @current_user %>
+        <td>
+          <% if FollowRequest.all.where({ :recipient_id => a_user.id, :sender_id => @current_user.id, :status => "pending"}).length > 0 %>
+          Request sent. <a href="/delete_follow_request/<%= FollowRequest.all.where({ :recipient_id => a_user.id, :sender_id => @current_user.id, :status => "pending"}).at(0).id %>">Cancel</a>
+          <% elsif FollowRequest.all.where({ :recipient_id => a_user.id, :sender_id => @current_user.id, :status => "accepted"}).length > 0%>
+            <a href="">Unfollow</a>
+          <% else %>
+            <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+              <input type="hidden" name="query_status" value="pending">
+
+              <button>
+                Follow
+              </button>
+            </form>
+          <% end %>
+        </td>
+      <% end %>
 
       <td>
         <a href="/users/<%= a_user.username %>">Show details</a>
