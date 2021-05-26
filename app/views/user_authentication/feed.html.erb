@@ -63,7 +63,7 @@
     <% Photo.where({ :owner_id => a_follow_request.recipient_id }).each do |a_photo| %>
     <tr>
       <td>
-        <img src="<%= a_photo.image %>">
+        <img src="https://robohash.org/<%= a_photo.image %>">
       </td>
 
       <td>

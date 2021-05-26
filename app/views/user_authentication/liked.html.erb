@@ -62,7 +62,7 @@
     <% @liked_photos.each do |a_photo| %>
       <tr>
         <td>
-          <img src="<%= Photo.where({ :id => a_photo.photo_id }).at(0).image %>">
+          <img src="https://robohash.org/<%= Photo.where({ :id => a_photo.photo_id }).at(0).image %>">
         </td>
 
         <td>
