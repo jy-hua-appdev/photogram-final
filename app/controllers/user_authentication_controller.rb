@@ -20,6 +20,30 @@ class UserAuthenticationController < ApplicationController
     render({ :template => "user_authentication/show.html.erb" })
   end
 
+  def liked
+    username = params.fetch("username")
+
+    matching_user= User.where({ :username => username })
+
+    @the_user = matching_user.at(0)
+
+    @liked_photos = Like.where({ :fan_id => @the_user.id })
+
+    render({ :template => "user_authentication/liked.html.erb" })
+  end
+
+  def feed
+    username = params.fetch("username")
+
+    matching_user= User.where({ :username => username })
+
+    @the_user = matching_user.at(0)
+
+    @user_is_follower = FollowRequest.where({ :sender_id => @the_user.id, :status => "accepted" })
+
+    render({ :template => "user_authentication/feed.html.erb"})
+  end
+
   def sign_in_form
     render({ :template => "user_authentication/sign_in.html.erb" })
   end
